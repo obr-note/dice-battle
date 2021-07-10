@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+// ./pages/demo
+import React from 'react'
+import {
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+} from 'next-firebase-auth'
 
-const Index = () => {
-  const [state, setState] = useState('');
-
+const Demo = () => {
+  const AuthUser = useAuthUser()
   return (
-    <>
-    ああああああああああ
-    </>
+    <div>
+      <p>Your email is {AuthUser.email ? AuthUser.email : "unknown"}.</p>
+    </div>
   )
 }
 
-export default Index;
+// Note that this is a higher-order function.
+export const getServerSideProps = withAuthUserTokenSSR()()
+
+export default withAuthUser()(Demo)
